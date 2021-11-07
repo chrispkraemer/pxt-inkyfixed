@@ -1,4 +1,3 @@
-
 namespace inkyfixed{
 
     
@@ -34,11 +33,66 @@ namespace inkyfixed{
         Accent = 2
     }
 
+    const ICONS: string[] = [
+        "Heart",
+        "SmallH",
+        "Yes",
+        "No",
+        "Happy",
+        "Sad",
+        "Confus",
+        "Angry",
+        "Asleep",
+        "Surpri",
+        "Silly",
+        "Fabulo",
+        "Meh",
+        "TShirt",
+        "Roller",
+        "Duck",
+        "House",
+        "Tortoi",
+        "Butter",
+        "StickF",
+        "Ghost",
+        "Sword",
+        "Giraff",
+        "Skull",
+        "Umbrel",
+        "Snake",
+        "Rabbit",
+        "Cow",
+        "Quarte",
+        "EigthN",
+        "Pitchf",
+        "Target",
+        "Triang",
+        "LeftTr",
+        "Chessb",
+        "Diamon",
+        "SmallD",
+        "Square",
+        "SmallS",
+        "Scisso",
+
+        "North",
+        "NorthE",
+        "East",
+        "SouthE",
+        "South",
+        "SouthW",
+        "West",
+        "NorthW"
+    ]
+
+    const WIDTH: number = 250
+    const HEIGHT: number = 122
+
     const ARROWOFFSET: number = 40
 
     let _pixelSize: number
     let y = 0
-    let width = 0
+    //let width = 0
     let offset_y = 0
     let offset_x = 0
     let cs_active = 0
@@ -54,7 +108,7 @@ namespace inkyfixed{
     let cs:DigitalPin
     let reset:DigitalPin
     let busy:DigitalPin
-    let height:number
+    //let height:number
     let rows:number
     let drivercontrol:number
     let gate_voltage:number
@@ -136,8 +190,8 @@ namespace inkyfixed{
         cs = DigitalPin.P8
         reset = DigitalPin.P2
         busy = DigitalPin.P16
-        width = 250
-        height = 122
+        //width = 250
+        //height = 122
         cols = 136
         rows = 250
         drivercontrol = 1
@@ -208,6 +262,14 @@ namespace inkyfixed{
         pins.digitalWritePin(cs, cs_inactive)
     }
 
+    export function clearRectangle(x: number, y: number, width: number, height: number): void {
+        let c: number = Color.White
+        let ly: number = 0
+        for (ly = y; ly <= y + height; ly++) {
+            drawLine(x, ly, x + width, ly, c)
+        }
+    }
+
     export function drawArrow(arrow: ArrowNames, x: number, y: number, color: Color = Color.Black, size: TextSize = TextSize.Regular): void {
         let image: Image = images.arrowImage(arrow)
         drawImage(image, x, y, color, size)
@@ -220,17 +282,17 @@ namespace inkyfixed{
 
     // Font bindings
 
-    //% shim=inkybit::getFontDataByte
+    //% shim=inkyfixed::getFontDataByte
     function getFontDataByte(index: number): number {
         return 0
     }
 
-    //% shim=inkybit::getFontData
+    //% shim=inkyfixed::getFontData
     function getFontData(index: number): Buffer {
         return pins.createBuffer(5)
     }
 
-    //% shim=inkybit::getCharWidth
+    //% shim=inkyfixed::getCharWidth
     function getCharWidth(char: number): number {
         return 5
     }
@@ -245,6 +307,51 @@ namespace inkyfixed{
             return 5 * size
         }
         return getCharWidth(charcode) * size
+    }
+
+    function tokenize(text: string): string {
+        let result: string = ""
+        let icon: string = ""
+
+        for (let x = 0; x < text.length; x++) {
+            let char: string = text.charAt(x)
+            if (char == "}" && icon.length > 0) {
+                let index: number = ICONS.indexOf(icon.substr(1, 6))
+                icon += char
+
+                if (index > -1) {
+                    icon = String.fromCharCode(DAL.MICROBIT_FONT_ASCII_END + 1 + index)
+                }
+
+                result += icon
+                icon = ""
+                continue
+            }
+            if (char == "{" || icon.length > 0) {
+                icon += char
+                continue
+            }
+            result += char
+        }
+
+        return result
+    }
+
+    export function drawText(text: string, x: number, y: number, color: Color = Color.Black, size: TextSize = TextSize.Regular): void {
+        text = tokenize(text)
+        _drawText(text, x, y, color, size)
+    }
+    export function _drawText(text: string, x: number, y: number, color: Color = Color.Black, size: TextSize = TextSize.Regular): void {
+        let o_x: number = x
+        for (let char_index: number = 0; char_index < text.length; char_index++) {
+            let width: number = charWidth(text.charAt(char_index), size)
+            if ((x + width) * _pixelSize >= WIDTH) {
+                y += 6 * size // New line, 5px tall + 1px gap
+                x = o_x
+            }
+            drawChar(text.charAt(char_index), x, y, color, size)
+            x += width + (1 * size) // 1px space between chars
+        }
     }
 
     export function drawChar(char: string, x: number, y: number, color: Color = Color.Black, size: TextSize = TextSize.Regular): void {
@@ -348,10 +455,10 @@ namespace inkyfixed{
     }
 
     export function setpixel(x: number, y: number, color: number) {
-        if (x > width) {
+        if (x > WIDTH) {
             return
         }
-        if (y > width) {
+        if (y > HEIGHT) {
             return
         }
 

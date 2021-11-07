@@ -1,4 +1,5 @@
 // Name tag
+/*
 inkyfixed.drawRectangle(0, 0, 249, 121, inkyfixed.Color.Accent, true)
 inkyfixed.drawRectangle(0, 30, 249, 60, inkyfixed.Color.White, true)
 
@@ -32,13 +33,15 @@ inkyfixed.setPixelSize(inkyfixed.PixelSize.Normal)
 //inkyfixed.drawText("Hello {Asleep}", 1, 22)
 
 // Icons
-/*
+
 inkyfixed.drawIcon(IconNames.Heart, 0, 1, inkyfixed.Color.Accent, inkyfixed.TextSize.Tiny)
 inkyfixed.drawIcon(IconNames.Heart, 0, 6, inkyfixed.Color.Accent, inkyfixed.TextSize.Regular)
 inkyfixed.drawIcon(IconNames.Heart, 0, 41, inkyfixed.Color.Accent, inkyfixed.TextSize.Medium)
 inkyfixed.drawIcon(IconNames.Heart, 41, 0, inkyfixed.Color.Accent, inkyfixed.TextSize.Large)
-*/
+
 
 inkyfixed.show()
 
 inkyfixed.clear()
+
+*/
