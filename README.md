@@ -1,4 +1,12 @@
+
+
+# inky:fixed
+
+Merged display.cpp into inkybit.ts. This allows for multiple SPI devices
+
+
 # inky:bit
+
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/pimoroni/pxt-inkybit/MakeCode)
 

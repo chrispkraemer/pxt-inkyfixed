@@ -5,7 +5,7 @@ using namespace pxt;
 #define PXT_CREATE_BUFFER(data, len) ManagedBuffer(data, len).leakData()
 #endif
 
-namespace inkybit {
+namespace inkyfixed {
     //%
     int getFontDataByte(int index) {
         if(index < 0 || index >= 475){

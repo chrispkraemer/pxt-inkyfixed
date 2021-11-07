@@ -1,14 +1,13 @@
 {
-    "name": "inkybit",
-    "version": "0.0.3",
-    "description": "Pimoroni Inky:Bit",
+    "name": "inkyfixed",
+    "version": "0.0.1",
+    "description": "Pimoroni Inky:Bit, but display is handled in TS",
     "license": "MIT",
     "dependencies": {
         "core": "*"
     },
     "files": [
         "README.md",
-        "display.cpp",
         "font.cpp",
         "shims.d.ts",
         "inkybit.ts"
